@@ -1,0 +1,20 @@
+Install:
+pip install mlx-lm
+pip install mlx-vlm
+
+Qwen3.8:
+mlx_vlm.server --model mlx-community/Qwen3.8-27B-4bit --kv-bits 4 --kv-quant-scheme turboquant --prefill-step-size 4096 --vision-cache-size 10 --max-num-seqs 2 --max-kv-size 32768 --max-tokens 1024 --port 11080 --host 0.0.0.0
+
+Gemma4:
+mlx_vlm.server --model mlx-community/gemma-4-26b-a4b-it-4bit --kv-bits 4 --kv-quant-scheme turboquant --prefill-step-size 4096 --vision-cache-size 10 --max-num-seqs 2 --max-kv-size 32768 --max-tokens 16384 --port 11080 --host 0.0.0.0
+
+Deepseek-VL2:
+mlx_vlm.server --model mlx-community/deepseek-vl2-4bit --kv-bits 4 --kv-quant-scheme turboquant --prefill-step-size 4096 --vision-cache-size 10 --max-num-seqs 2 --max-kv-size 32768 --max-tokens 1024 --port 11080 --host 0.0.0.0
+
+Deepseek-R1:
+mlx_lm.server --model mlx-community/DeepSeek-R1-Distill-Qwen-32B-4bit --kv-bits 4 --max-kv-size 32768 --max-tokens 8192 --port 11080 --host 0.0.0.0
+
+
+List models:
+curl -s "https://huggingface.co/api/models?author=mlx-community&search=gemma" | jq -r '.[].id'
+curl -s "https://huggingface.co/api/models?author=mlx-community&search=gemma" | jq -r '.[] | select(.id | contains("26b")) | .id'
