@@ -18,4 +18,4 @@ else
 fi
 
 # Aider starten
-aider/bin/aider --model openai/mlx-community/gemma-4-26b-a4b-it-4bit --no-show-model-warnings
+aider/bin/aider --model openai/mlx-community/gemma-4-26b-a4b-it-4bit --no-show-model-warnings --map-tokens 4096
