@@ -11,7 +11,7 @@ if screen -list | grep -q "\.$SESSION_NAME"; then
 else
     echo "Session '$SESSION_NAME' nicht gefunden. Erstelle Session und starte mlx_lm-Server..."
     # Erstellt eine neue, abgetrennte (detached) Session und führt den Server darin aus
-    screen -d -m -S "$SESSION_NAME" mlx_lm.server --model mlx-community/gemma-4-26b-a4b-it-4bit --max-tokens 16384 --max-num-seqs 4 --max-kv-size 32768 --port 11080 --host 0.0.0.0
+    screen -d -m -S "$SESSION_NAME" /Users/murm/llm/mlx/bin/mlx_lm.server --model mlx-community/gemma-4-26b-a4b-it-4bit --max-tokens 32768  --port 11080 --host 0.0.0.0
     
     # Kurze Pause, damit der Server Zeit hat zu initialisieren
     sleep 3
