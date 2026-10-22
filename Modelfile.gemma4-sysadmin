@@ -1,0 +1,14 @@
+FROM gemma4:26b-mlx
+
+# 64K context window (increase to 131072 if you have 36GB+ Unified Memory)
+PARAMETER num_ctx 131072
+PARAMETER num_predict 16384
+
+# Gemma 4 sweet spot for tool-calling + internal <|think|> reasoning
+PARAMETER temperature 0.6
+PARAMETER top_p 0.95
+PARAMETER top_k 50
+PARAMETER min_p 0.05
+
+# Keep repeat_penalty disabled (1.0) so K8s YAML, JSON, and bash variables aren't mutated
+PARAMETER repeat_penalty 1.0

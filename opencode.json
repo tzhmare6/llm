@@ -1,0 +1,78 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "ollama/gemma4-sysadmin:26b-mlx",
+  "provider": {
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama (Gemma 4 Apple Silicon MLX)",
+      "options": {
+        "baseURL": "http://localhost:11434/v1"
+      },
+      "models": {
+        "gemma4-sysadmin:26b-mlx": {
+          "name": "Gemma 4 26B MLX (Sysadmin)",
+          "limit": {
+            "context": 131072,
+            "output": 65536
+          },
+          "options": {
+            "temperature": 0.6,
+            "top_p": 0.95,
+            "top_k": 50,
+            "min_p": 0.05,
+            "repeat_penalty": 1.0
+          }
+        }
+      }
+    }
+  },
+  "agent": {
+    "build": {
+      "temperature": 0.6,
+      "top_p": 0.95,
+      "prompt": "<|think|>\nYou are a senior Linux, Kubernetes, and macOS Systems Administrator. Prefer POSIX-compliant or idiomatic bash, idempotent configuration changes, and dry-run/syntax verification flags (e.g., nginx -t, sshd -t, systemd-analyze verify, kubectl --dry-run=client) before applying changes."
+    },
+    "plan": {
+      // Warmer temperature (0.8) unlocks Gemma 4's full reasoning depth for incident triage
+      "temperature": 0.8,
+      "top_p": 0.95,
+      "prompt": "<|think|>\nAnalyze logs, system state, and infrastructure configs methodically. Identify root causes, blast radius, and rollback steps before proposing commands."
+    }
+  },
+  "permission": {
+    "edit": "ask",
+    "bash": {
+      // Read-only sysadmin diagnostics run automatically
+      "ls*": "allow",
+      "cat *": "allow",
+      "head *": "allow",
+      "tail *": "allow",
+      "grep *": "allow",
+      "rg *": "allow",
+      "find *": "allow",
+      "ps *": "allow",
+      "df *": "allow",
+      "du *": "allow",
+      "free *": "allow",
+      "uptime": "allow",
+      "uname *": "allow",
+      "ip addr*": "allow",
+      "ip route*": "allow",
+      "ss *": "allow",
+      "lsof *": "allow",
+      "systemctl status*": "allow",
+      "systemctl list-*": "allow",
+      "journalctl *": "allow",
+      "kubectl get *": "allow",
+      "kubectl describe *": "allow",
+      "kubectl logs *": "allow",
+      "docker ps*": "allow",
+      "docker logs *": "allow",
+      // Prompt before executing state-changing or privileged commands
+      "*": "ask"
+    }
+  }
+  "experimental": {
+    "policies": [{ "action": "provider.use", "resource": "opencode", "effect": "deny" }]
+  }
+}
